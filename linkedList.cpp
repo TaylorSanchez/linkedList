@@ -124,7 +124,10 @@ int main(){
 	cin>>node_number;                   // take the node number from user
 	temp = head;
 	for( int i = 1; i <= node_number ; i++ ){
-		if( temp == NULL ){
+		if ( i == 1 ){
+			printf("Please use head deletion\n");
+		}
+		else if( temp == NULL ){
 	    	printf("Node %i does not exist.\n", node_number);
 	    	break;
 	    }
@@ -137,9 +140,6 @@ int main(){
 		temp = temp->next;           // go to the next node
 	}
 
-
-
-
 	//This will output each node in the linkedList
 	end=(linkedList*)malloc(sizeof(linkedList));
   	end=head;
@@ -151,20 +151,5 @@ int main(){
 	}
 	printf("\n");
 
-	// for (int i=0;i<nums;i++){
-	// 	printf("%i. Please enter your number\n", i);
-	// 	cin >> array[i];
-	// }
-	// printf("=========================\n\n");
-
-	// for(int i=0;i<nums;i++){
-	// 	if (array[i]>array[i+1]){
-	// 		endarr=array[i];
-	// 		array[i]=array[i+1];
-	// 		array[i+1]=endarr;
-	// 	}
-	// 	printf("%i is >= %i\n\n",array[i+1],array[i]);
-	// 	i++;
-	// }
 return 0;
 }
