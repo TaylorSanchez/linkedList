@@ -68,11 +68,9 @@ int main(){
 
 	//inserting after 'x' number of nodes
 	int node_number;
-	cout<<"ENTER THE NODE NUMBER:";
+	cout<<"ENTER THE NODE LOCATION TO ADD NUMBER:";
 	cin>>node_number;                   // take the node number from user
-
 	temp = head;
-
 	for( int i = 1; i <= node_number ; i++ ){
 		if( temp == NULL ){
 	    	printf("Node %i does not exist.\n", node_number);
@@ -120,6 +118,24 @@ int main(){
   	end->next = NULL;
   	free(temp);
 
+
+	//inserting after 'x' number of nodes
+	cout<<"ENTER THE NODE LOCATION TO DELETE:";
+	cin>>node_number;                   // take the node number from user
+	temp = head;
+	for( int i = 1; i <= node_number ; i++ ){
+		if( temp == NULL ){
+	    	printf("Node %i does not exist.\n", node_number);
+	    	break;
+	    }
+	    else if ( i == node_number ){
+	    	end->next = temp ->next;
+	      	free(temp);
+	      	break;
+	    }
+	    end = temp;
+		temp = temp->next;           // go to the next node
+	}
 
 
 
