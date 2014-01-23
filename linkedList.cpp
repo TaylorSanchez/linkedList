@@ -8,87 +8,68 @@ struct linkedList
 	linkedList *next;
 };
 
-int main(){
-
-	int nums=2;
-	int array[nums];
-	int divs=nums/2;
-	int endarr;
-
+linkedList* createLinkedList(){
 	//first pointer to start/header of linked list,
 	//this will be used to add to the beginning of the linkedList
 	linkedList *head = NULL;
+	return head;
+}
 
+linkedList* addToBeginning(int newData, linkedList *head){
 	//temporary pointer for 'juggling' nodes, also first data holder
 	linkedList *temp = NULL;
+	temp = (linkedList*)malloc(sizeof(linkedList));
 
-	//declare this will be used to add to either end of the linkedList,
-	//as well as mid breaks created for mid inserts
-	linkedList *end;
+	temp->data = newData;
+	temp->next = head;
+	return head = temp;
+}
 
-	//allocate the memory for my 1st link in the list, added to the beginning.
-	end = (linkedList*)malloc(sizeof(linkedList));
-	end->data = 345;
-	end->next = head;
-	head = end;
-
-	//allocate the memory for my 2nd link in the list added to the beginning.
-	end = (linkedList*)malloc(sizeof(linkedList));
-	end->data = 346;
-	end->next = head;
-	head = end;
-
-	//allocate the memory for my 3rd link in the list, added to the beginning.
-	end = (linkedList*)malloc(sizeof(linkedList));
-	end->data = 347;
-	end->next = head;
-	head = end;
-
-
+void addToEnd(int newData, linkedList *head){
 	//This adds a node to the END of the linkedList
-	end=(linkedList*)malloc(sizeof(linkedList));   // allocate space for node
+	linkedList *temp = NULL;
+	linkedList *end = NULL;
+	end = (linkedList*)malloc(sizeof(linkedList));
+	temp = (linkedList*)malloc(sizeof(linkedList));
+
 	temp = head;              // transfer the address of 'head' to 'end'
 	while(temp->next!=NULL){ // go to the last node
 		temp = temp->next;//tranfer the address of 'end1->next' to 'end'
   	}
-	end->data = 344;                   // store data(first field)
+	end->data = newData;                   // store data(first field)
 	end->next = NULL;                   // second field will be null(last node)
 	temp->next = end;
 
+}
 
-	//This adds a node to the END of the linkedList
-	end=(linkedList*)malloc(sizeof(linkedList));   // allocate space for node
-	temp = head;              // transfer the address of 'head' to 'end'
-	while(temp->next!=NULL){ // go to the last node
-		temp = temp->next;//tranfer the address of 'end1->next' to 'end'
-  	}
-	end->data = 343;                   // store data(first field)
-	end->next = NULL;                   // second field will be null(last node)
-	temp->next = end;
-
+void addtoMid(int newData, int nodeLocation, linkedList *head){
 	//inserting after 'x' number of nodes
-	int node_number;
-	cout<<"ENTER THE NODE LOCATION TO ADD NUMBER:";
-	cin>>node_number;                   // take the node number from user
+	linkedList *temp = NULL;
+	linkedList *mid = NULL;
+	mid = (linkedList*)malloc(sizeof(linkedList));
+	temp = (linkedList*)malloc(sizeof(linkedList));
+
 	temp = head;
-	for( int i = 1; i <= node_number ; i++ ){
+	for( int i = 1; i <= nodeLocation ; i++ ){
 		if( temp == NULL ){
-	    	printf("Node %i does not exist.\n", node_number);
+	    	printf("Node %i does not exist.\n", nodeLocation);
 	    	break;
 	    }
 
-	    else if ( i == node_number ){
-	      	end = (linkedList*)malloc(sizeof(linkedList));
-	      	end->data=5000;
-	      	end->next=temp->next;
-	      	temp->next=end;
+	    else if ( i == nodeLocation ){
+	      	mid = (linkedList*)malloc(sizeof(linkedList));
+	      	mid->data = newData;
+	      	mid->next = temp->next;
+	      	temp->next = mid;
 	      	break;
 	    }
 	   temp = temp->next;           // go to the next node
 	}
+}
 
-
+void outputLinkedList(linkedList* head){
 	//This will output each node in the linkedList
+	linkedList *end;
 	end=(linkedList*)malloc(sizeof(linkedList));
   	end=head;
 	while( end!=NULL ){
@@ -98,58 +79,25 @@ int main(){
 		end = end->next;   // tranfer the address of 'end->next' to 'end'
 	}
 	printf("\n");
+}
 
+int main(){
+	int node_number;
+	//first pointer to start/header of linked list,
+	//this will be used to add to the beginning of the linkedList
+	linkedList *head = createLinkedList();
+	head = addToBeginning(345, head);
+	head = addToBeginning(346, head);
+	head = addToBeginning(347, head);
+	addToEnd(344, head);
+	addToEnd(343, head);
 
-	//this deletes the 'head' or top most node
-	temp = head;                   // transfer the address of 'head' to 'temp'
-	head = temp->next;      // transfer the address of 'temp->next' to 'head'
-	free(temp);
+	cout << "ENTER THE NODE LOCATION TO ADD NUMBER:";
+	cin >> node_number;                   // take the node number from user
+	addtoMid(5000, node_number, head);
 
+	outputLinkedList(head);
 
-
-
-	//This deletes a node to the END of the linkedList
-	end=(linkedList*)malloc(sizeof(linkedList));   // allocate space for node
-	temp = head;              // transfer the address of 'head' to 'end'
-	while(temp->next!=NULL){ // go to the last node
-		end = temp;
-		temp = temp->next;//tranfer the address of 'end1->next' to 'end'
-  	}
-  	end->next = NULL;
-  	free(temp);
-
-
-	//inserting after 'x' number of nodes
-	cout<<"ENTER THE NODE LOCATION TO DELETE:";
-	cin>>node_number;                   // take the node number from user
-	temp = head;
-	for( int i = 1; i <= node_number ; i++ ){
-		if ( i == 1 ){
-			printf("Please use head deletion\n");
-		}
-		else if( temp == NULL ){
-	    	printf("Node %i does not exist.\n", node_number);
-	    	break;
-	    }
-	    else if ( i == node_number ){
-	    	end->next = temp ->next;
-	      	free(temp);
-	      	break;
-	    }
-	    end = temp;
-		temp = temp->next;           // go to the next node
-	}
-
-	//This will output each node in the linkedList
-	end=(linkedList*)malloc(sizeof(linkedList));
-  	end=head;
-	while( end!=NULL ){
-		printf("\n");
-		cout<< end->data<<" ";// show the data in the linked list
-		cout<< end->next<<" ";
-		end = end->next;   // tranfer the address of 'end->next' to 'end'
-	}
-	printf("\n");
 
 return 0;
 }
