@@ -73,15 +73,11 @@ int main(){
 
 	temp = head;
 
-	for( int i = 0; i <= node_number ; i++ ){
+	for( int i = 1; i <= node_number ; i++ ){
 		printf("i:%i	node_number:%i\n", i,node_number);
 		cout << temp->next;
 		printf("\n");
-	    if ( node_number == 0 ){
-	    	printf("This should be added to the beginning.\n");
-	    	break;
-	    }
-	    else if( temp == NULL ){
+		if( temp == NULL ){
 	    	printf("Node %i does not exist.\n", node_number);
 	    	break;
 	    }
