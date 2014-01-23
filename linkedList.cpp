@@ -74,9 +74,6 @@ int main(){
 	temp = head;
 
 	for( int i = 1; i <= node_number ; i++ ){
-		printf("i:%i	node_number:%i\n", i,node_number);
-		cout << temp->next;
-		printf("\n");
 		if( temp == NULL ){
 	    	printf("Node %i does not exist.\n", node_number);
 	    	break;
@@ -109,6 +106,22 @@ int main(){
 	temp = head;                   // transfer the address of 'head' to 'temp'
 	head = temp->next;      // transfer the address of 'temp->next' to 'head'
 	free(temp);
+
+
+
+
+	//This deletes a node to the END of the linkedList
+	end=(linkedList*)malloc(sizeof(linkedList));   // allocate space for node
+	temp = head;              // transfer the address of 'head' to 'end'
+	while(temp->next!=NULL){ // go to the last node
+		end = temp;
+		temp = temp->next;//tranfer the address of 'end1->next' to 'end'
+  	}
+  	end->next = NULL;
+  	free(temp);
+
+
+
 
 
 	//This will output each node in the linkedList
