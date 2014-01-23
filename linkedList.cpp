@@ -54,7 +54,6 @@ int main(){
 	end->data = 344;                   // store data(first field)
 	end->next = NULL;                   // second field will be null(last node)
 	temp->next = end;
-	printf("\n\nadded to end\n\n");
 
 
 	//This adds a node to the END of the linkedList
@@ -66,40 +65,35 @@ int main(){
 	end->data = 343;                   // store data(first field)
 	end->next = NULL;                   // second field will be null(last node)
 	temp->next = end;
-	printf("\n\nadded to end\n\n");
-
-	//This will output each node in the linkedList
-	end=(linkedList*)malloc(sizeof(linkedList));
-  	end=head;
-	while( end!=NULL ){
-		printf("\n");
-		cout<< end->data<<" ";// show the data in the linked list
-		cout<< end->next<<" ";
-		end = end->next;   // tranfer the address of 'end->next' to 'end'
-	}
-	printf("\n");
 
 	//inserting after 'x' number of nodes
 	int node_number;
 	cout<<"ENTER THE NODE NUMBER:";
 	cin>>node_number;                   // take the node number from user
 
-	temp = (linkedList*)malloc(sizeof(linkedList)); // allocate space for node
 	temp = head;
 
-	for( int i = 1 ; i < node_number ; i++ ){
-	    temp = temp->next;           // go to the next node
-	    if( temp == NULL ){
+	for( int i = 0; i <= node_number ; i++ ){
+		printf("i:%i	node_number:%i\n", i,node_number);
+		cout << temp->next;
+		printf("\n");
+	    if ( node_number == 0 ){
+	    	printf("This should be added to the beginning.\n");
+	    	break;
+	    }
+	    else if( temp == NULL ){
 	    	printf("Node %i does not exist.\n", node_number);
 	    	break;
 	    }
-	    else{
-	      	end=(linkedList*)malloc(sizeof(linkedList));
-	      	end->data=500;
+
+	    else if ( i == node_number ){
+	      	end = (linkedList*)malloc(sizeof(linkedList));
+	      	end->data=5000;
 	      	end->next=temp->next;
 	      	temp->next=end;
+	      	break;
 	    }
-
+	   temp = temp->next;           // go to the next node
 	}
 
 
@@ -115,13 +109,22 @@ int main(){
 	printf("\n");
 
 
-	linkedList *temp;                                      // create a temporary node
-	temp = (linkedList*)malloc(sizeof(linkedList));  // allocate space for node
+	//this deletes the 'head' or top most node
 	temp = head;                   // transfer the address of 'head' to 'temp'
 	head = temp->next;      // transfer the address of 'temp->next' to 'head'
 	free(temp);
 
 
+	//This will output each node in the linkedList
+	end=(linkedList*)malloc(sizeof(linkedList));
+  	end=head;
+	while( end!=NULL ){
+		printf("\n");
+		cout<< end->data<<" ";// show the data in the linked list
+		cout<< end->next<<" ";
+		end = end->next;   // tranfer the address of 'end->next' to 'end'
+	}
+	printf("\n");
 
 	// for (int i=0;i<nums;i++){
 	// 	printf("%i. Please enter your number\n", i);
