@@ -37,9 +37,8 @@ void addToEnd(int newData, linkedList *head){
 		temp = temp->next;//tranfer the address of 'end1->next' to 'end'
   	}
 	end->data = newData;                   // store data(first field)
-	end->next = NULL;                   // second field will be null(last node)
+	end->next = NULL;                  // second field will be null(last node)
 	temp->next = end;
-
 }
 
 void addtoMid(int newData, int nodeLocation, linkedList *head){
@@ -72,13 +71,57 @@ void outputLinkedList(linkedList* head){
 	linkedList *end;
 	end=(linkedList*)malloc(sizeof(linkedList));
   	end=head;
+  	int i = 0;
 	while( end!=NULL ){
 		printf("\n");
 		cout<< end->data<<" ";// show the data in the linked list
 		cout<< end->next<<" ";
 		end = end->next;   // tranfer the address of 'end->next' to 'end'
+		if (i > 5){break;}
+		i++;
 	}
 	printf("\n");
+}
+
+void moveNode(int currentLocation,int newLocation,linkedList* head){
+		// create a  pointer to step through linkedList
+	linkedList *stepPtr;
+	stepPtr = head->next;
+		//look for currentLocation
+	for( int i = 1; i <= currentLocation ; i++ ){
+		if( stepPtr == NULL ){
+	    	printf("Node %i does not exist.\n", newLocation);
+	    	break;
+	    }
+	    else if ( i == currentLocation-1 ){ //need one previous
+	    	// create a temporary pointer to hold current current-1's pointer
+			linkedList *tempPtr;
+	    	tempPtr = stepPtr->next;
+	    	cout << tempPtr;
+	    	printf("\n");
+	    	//move pionter from current to current-1
+	    	stepPtr->next = stepPtr->next;
+	    	//move forward
+	    	stepPtr = stepPtr->next;
+	    	//look for newLocation
+	    	for( i=i; i <=  newLocation; i++){
+	    		if( stepPtr == NULL ){
+	    			printf("Node %i does not exist.\n", newLocation);
+	    			//need to put pointer back from earlier
+	    			break;
+	    		}
+	    		else if ( i == newLocation ){
+	    			tempPtr->next = stepPtr->next;
+	    			stepPtr = stepPtr->next;
+	    			stepPtr->next = tempPtr;
+	    			break;
+	    		}
+	    		stepPtr = stepPtr->next;
+	    	}
+	    	break;
+	    }
+	   stepPtr = stepPtr->next;
+	}
 }
 
 int main(){
@@ -92,11 +135,34 @@ int main(){
 	addToEnd(344, head);
 	addToEnd(343, head);
 
-	cout << "ENTER THE NODE LOCATION TO ADD NUMBER:";
-	cin >> node_number;                   // take the node number from user
-	addtoMid(5000, node_number, head);
+	// cout << "ENTER THE NODE LOCATION TO ADD NUMBER:";
+	// cin >> node_number;                   // take the node number from user
+	addtoMid(5000, 3, head);
+
+	linkedList * foo;
+	linkedList * foo2;
+
+	foo = head->next;
+	cout << foo;
+	printf("\n" );
+	foo = foo->next;
+	cout << foo;
+	printf("\n");
+
 
 	outputLinkedList(head);
+
+
+	moveNode(2,3,head);
+	// foo2 = foo->next;
+	// cout << foo2;
+	// foo->next = foo2->next;
+	// printf("\n");
+	// cout << foo;
+	// printf("\n");
+
+	outputLinkedList(head);
+
 
 
 return 0;
