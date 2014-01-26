@@ -350,7 +350,7 @@ int main(){
 
 	outputLinkedList(head);
 
-
+//add delete node capabilities
 
 return 0;
 }
