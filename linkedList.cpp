@@ -352,5 +352,45 @@ int main(){
 
 //add delete node capabilities
 
+
+  //this deletes the 'head' or top most node
+temp = head;                   // transfer the address of 'head' to 'temp'
+head = temp->next;      // transfer the address of 'temp->next' to 'head'
+free(temp);
+ -
+ -
+ -
+ -
+//This deletes a node to the END of the linkedList
+end=(linkedList*)malloc(sizeof(linkedList));   // allocate space for node
+temp = head;              // transfer the address of 'head' to 'end'
+while(temp->next!=NULL){ // go to the last node
+end = temp;
+temp = temp->next;//tranfer the address of 'end1->next' to 'end'
+}
+end->next = NULL;
+free(temp);
+
+
+//inserting after 'x' number of nodes
+cout<<"ENTER THE NODE LOCATION TO DELETE:";
+cin>>node_number;                   // take the node number from user
+temp = head;
+for( int i = 1; i <= node_number ; i++ ){
+if ( i == 1 ){
+  printf("Please use head deletion\n");
+}
+else if( temp == NULL ){
+    printf("Node %i does not exist.\n", node_number);
+    break;
+  }
+  else if ( i == node_number ){
+    end->next = temp ->next;
+      free(temp);
+      break;
+  }
+  end = temp;
+temp = temp->next;           // go to the next node
+}
 return 0;
 }
