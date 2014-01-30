@@ -424,7 +424,7 @@ void changeData(int nodeLocation, int nodeData, linkedList* head){
 		}
 		stepPtr->data = nodeData;
 	}
-	for( int i = 1; i <= nodeLocation ; i++ ){
+	else for( int i = 1; i <= nodeLocation ; i++ ){
 		if( stepPtr->next == NULL ){
 		    if ( i++ == nodeLocation ) {
 		    	stepPtr->data = nodeData;
