@@ -413,22 +413,14 @@ linkedList* deleteNode(int nodeLocation, linkedList* head){
 void changeData(int nodeLocation, int nodeData, linkedList* head){
 	linkedList* stepPtr;
 	stepPtr = head;
-	if ( nodeLocation == 0 )
-	{
-		head->data = nodeData;
-	}
-	else if ( nodeLocation == -1 )
-	{
-		while( stepPtr->next!=NULL ){ // go to the last node
-			stepPtr = stepPtr->next;
-		}
+	if ( nodeLocation == 0 ) { head->data = nodeData; }
+	else if ( nodeLocation == -1 ) {
+		while( stepPtr->next!=NULL ){ stepPtr = stepPtr->next; }
 		stepPtr->data = nodeData;
 	}
 	else for( int i = 1; i <= nodeLocation ; i++ ){
 		if( stepPtr->next == NULL ){
-		    if ( i++ == nodeLocation ) {
-		    	stepPtr->data = nodeData;
-		    }
+		    if ( i++ == nodeLocation ) { stepPtr->data = nodeData; }
 		    else { printf("Node %i does not exist.\n", nodeLocation); }
 		    break;
 		  }
