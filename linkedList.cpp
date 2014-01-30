@@ -410,6 +410,35 @@ linkedList* deleteNode(int nodeLocation, linkedList* head){
 	return head;
 }
 
+void changeData(int nodeLocation, int nodeData, linkedList* head){
+	linkedList* stepPtr;
+	stepPtr = head;
+	if ( nodeLocation == 0 )
+	{
+		head->data = nodeData;
+	}
+	else if ( nodeLocation == -1 )
+	{
+		while( stepPtr->next!=NULL ){ // go to the last node
+			stepPtr = stepPtr->next;
+		}
+		stepPtr->data = nodeData;
+	}
+	for( int i = 1; i <= nodeLocation ; i++ ){
+		if( stepPtr->next == NULL ){
+		    if ( i++ == nodeLocation ) {
+		    	stepPtr->data = nodeData;
+		    }
+		    else { printf("Node %i does not exist.\n", nodeLocation); }
+		    break;
+		  }
+		else if ( i == nodeLocation ){
+	    	stepPtr->data = nodeData;
+			break;
+		}
+		stepPtr = stepPtr->next;           // go to the next node
+	}
+}
 
 /**
  *Change functions here to make use of linkedList
@@ -435,7 +464,9 @@ int main(){
 
 	//head = moveNode(0,-1,head); //add -1 to choose last one
 
-	head = deleteNode(9, head);
+	//head = deleteNode(9, head);
+
+	changeData(-1, 348, head);
 
 	outputLinkedList(head);
 
