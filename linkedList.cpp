@@ -29,6 +29,7 @@ struct linkedList{
 	linkedList *next;
 };
 
+
 /**
  * Creates the first node (or memory space) of the linkedList
  * This Should be called before attemping any other fuctions
@@ -42,11 +43,31 @@ linkedList* createLinkedList(){
 
 
 /**
+ * Inserts walks through the linkedList and outputs both the data and pointer
+ * of each node.
+ */
+void outputLinkedList(linkedList* head){
+	//This will output each node in the linkedList
+	linkedList *end;
+  	end=head;
+  	int i = 0;
+	while( end!=NULL ){
+		printf("%i ",end->data );
+		printf("%p\n",end->next );
+		end = end->next;   // tranfer the address of 'end->next' to 'end'
+		if (i > 9){break;}
+		i++;
+	}
+	printf("\n");
+}
+
+
+/**
  * Inserts a new node to the top/beginning of the linkedList.
  * This will replace the head node with the new data, and move the data down
  * the 'stack'.
  */
-linkedList* insertToTop(int newData, linkedList *head){
+linkedList* insertToHead(int newData, linkedList *head){
 	//temporary pointer for 'juggling' nodes, also first data holder
 	linkedList *newHead = NULL;
 	newHead = (linkedList*)malloc(sizeof(linkedList));
@@ -113,12 +134,12 @@ void insertToMid(int newData, int nodeLocation, linkedList *head){
 
 /**
  * Inserts a new node to any part of the linkedList.
- * This function simply has logic to automatically chose insertToTop/End/Mid
+ * This function has logic to automatically chose insertToTop/End/Mid
  * based on the imput it is given.
  */
 linkedList* insertNode(int newData, int nodeLocation, linkedList *head){
 	if ( nodeLocation == 0 ){
-		head = insertToTop(newData, head);
+		head = insertToHead(newData, head);
 	}
 	else if ( nodeLocation == -1 )
 	{
@@ -132,32 +153,12 @@ linkedList* insertNode(int newData, int nodeLocation, linkedList *head){
 
 
 /**
- * Inserts walks through the linkedList and outputs both the data and pointer
- * of each node.
- */
-void outputLinkedList(linkedList* head){
-	//This will output each node in the linkedList
-	linkedList *end;
-  	end=head;
-  	int i = 0;
-	while( end!=NULL ){
-		printf("%i ",end->data );
-		printf("%p\n",end->next );
-		end = end->next;   // tranfer the address of 'end->next' to 'end'
-		if (i > 9){break;}
-		i++;
-	}
-	printf("\n");
-}
-
-
-/**
  * Moves the a node to the last position of the linkedList
  * tempPrt: points to the node being moved
  * stepPtr: pointer used to traverse through linkedList
  * This is is called as needed by moveNode()
  */
-void moveToLast( linkedList *tempPtr, linkedList *stepPtr){
+void moveToEnd( linkedList *tempPtr, linkedList *stepPtr){
 	tempPtr->next = NULL;
 	stepPtr->next = tempPtr;
 }
@@ -171,7 +172,7 @@ void moveToLast( linkedList *tempPtr, linkedList *stepPtr){
  * head: the head node used to traverse down
  * This is is called as needed by moveNode()
  */
-linkedList* moveFirstNode(int newLocation, linkedList* tempPtr,
+linkedList* moveHeadNode(int newLocation, linkedList* tempPtr,
                           linkedList* stepPtr, linkedList* head)
 {
 	tempPtr = stepPtr;
@@ -182,11 +183,11 @@ linkedList* moveFirstNode(int newLocation, linkedList* tempPtr,
 	stepPtr = head;
 	if ( newLocation == -1 ){
 		while( stepPtr->next != NULL ){ stepPtr = stepPtr->next; }
-		moveToLast( tempPtr, stepPtr );
+		moveToEnd( tempPtr, stepPtr );
 	}
 	for( int j=0; j <=  newLocation; j++){
 		if( stepPtr->next == NULL ){
-			moveToLast( tempPtr, stepPtr);
+			moveToEnd( tempPtr, stepPtr);
 			break;
 		}
 		else if ( j == newLocation - 2 ){
@@ -225,7 +226,7 @@ linkedList* moveMidNode(int currentLocation, int newLocation,
 	    	stepPtr = head;
 	    	if ( newLocation == -1 ){
 	    		while( stepPtr->next != NULL ){ stepPtr = stepPtr->next; }
-			    moveToLast( tempPtr, stepPtr);
+			    moveToEnd( tempPtr, stepPtr);
 			    break;
 	    	}
 	    	for( int j=0; j <=  newLocation; j++){
@@ -235,7 +236,7 @@ linkedList* moveMidNode(int currentLocation, int newLocation,
 	    			break;
 	    		}
 				else if( stepPtr->next == NULL ){
-			    	moveToLast( tempPtr, stepPtr );
+			    	moveToEnd( tempPtr, stepPtr );
 	    			break;
 	    		}
 	    		else if ( j == newLocation - 2 ){
@@ -261,7 +262,7 @@ linkedList* moveMidNode(int currentLocation, int newLocation,
  * head: the head node used to traverse down
  * This is is called as needed by moveNode()
  */
-linkedList* moveLastNode(int newLocation, linkedList* tempPtr,
+linkedList* moveEndNode(int newLocation, linkedList* tempPtr,
                          linkedList* stepPtr, linkedList* head)
 {
 	while( stepPtr->next->next != NULL ){ stepPtr = stepPtr->next; }
@@ -270,7 +271,7 @@ linkedList* moveLastNode(int newLocation, linkedList* tempPtr,
 	stepPtr = head;
 	if ( newLocation == -1 ){
 		while( stepPtr->next != NULL ) { stepPtr = stepPtr->next; }
-		moveToLast( tempPtr, stepPtr );
+		moveToEnd( tempPtr, stepPtr );
 	}
 	for ( int j=0; j <=  newLocation; j++){
 		if ( newLocation == 1 || newLocation == 0){
@@ -279,7 +280,7 @@ linkedList* moveLastNode(int newLocation, linkedList* tempPtr,
 			break;
 		}
 		else if ( stepPtr->next == NULL ){
-	    	moveToLast( tempPtr, stepPtr );
+	    	moveToEnd( tempPtr, stepPtr );
 			break;
 		}
 		else if ( j == newLocation - 2 ){
@@ -294,15 +295,15 @@ linkedList* moveLastNode(int newLocation, linkedList* tempPtr,
 
 
 /**
- * Moves the a node specified to the the new position specified
+ * Moves a node specified to the the new position specified
  * currentLocation: node specified
  * newLocation: new position specified
- * tempPrt: points to the node being moved
+ * tempPtr: points to the node being moved
  * stepPtr: pointer used to traverse through linkedList
  * head: the head node used to traverse down
  * This calls the necessary functions needed based on the input
  * shorthand:
- * 		0 for newLocation/Location refers to the head node or 1st position
+ * 		0  for newLocation/Location refers to the head node or 1st position
  * 		-1 for newLocation/Location refers to the last node or last position
  */
 linkedList* moveNode(int currentLocation,int newLocation,linkedList* head){
@@ -311,15 +312,101 @@ linkedList* moveNode(int currentLocation,int newLocation,linkedList* head){
 	stepPtr = head;
 	if ( currentLocation == -1 )
 	{
-		head = moveLastNode(newLocation, tempPtr, stepPtr, head);
+		head = moveEndNode(newLocation, tempPtr, stepPtr, head);
 	}
 	else if ( currentLocation == 0 || currentLocation == 1 ){
-		head = moveFirstNode(newLocation, tempPtr, stepPtr, head);
+		head = moveHeadNode(newLocation, tempPtr, stepPtr, head);
 	}
 	else {
 		head = moveMidNode(currentLocation, newLocation, tempPtr, stepPtr,
 		                   head);
 	}
+	return head;
+}
+
+
+
+/**
+ * Deletes the head node
+ * tempPtr: pointer used to hold head location for deletion
+ * head: updated to new head node location.
+ * This is is called as needed by deleteNode()
+ */
+linkedList* deleteHeadNode(linkedList* head){
+	linkedList* tempPtr;
+	tempPtr = head;			// xfer the address of 'head' to 'tempPtr'
+	head = head->next;		// set head equal to next Node in list
+	free(tempPtr);
+	return head;
+}
+
+
+/**
+ * Deletes the end node
+ * stepPtr: pointer used to traverse through linkedList,
+ *			and is eventually deleted
+ * head: the head node used to start traverse downward
+ * This is is called as needed by deleteNode()
+ */
+void deleteEndNode(linkedList* head){
+	//This deletes a node to the END of the linkedList
+	linkedList* stepPtr;
+	linkedList* end;
+	stepPtr = head;              // transfer the address of 'head' to 'end'
+	while(stepPtr->next!=NULL){ // go to the last node
+		end = stepPtr;
+			stepPtr = stepPtr->next;//tranfer the address of
+			//'end1->next' to 'end'
+	}
+	end->next = NULL;
+	free(stepPtr);
+}
+
+
+/**
+ * Deletes the a node to the the node position specified
+ * nodeLocation: node position specified
+ * stepPtr: pointer used to traverse through linkedList,
+ *			and is eventually deleted
+ * head: the head node used to start traverse downward
+ * This is is called as needed by deleteNode()
+ */
+void deleteMidNode(int nodeLocation, linkedList* head){
+	linkedList* stepPtr;
+	linkedList* end;
+	stepPtr = head;
+	for( int i = 1; i <= nodeLocation ; i++ ){
+		if( stepPtr->next == NULL ){
+		    if ( i++ == nodeLocation ) { deleteEndNode(head); }
+		    else { printf("Node %i does not exist.\n", nodeLocation); }
+		    break;
+		  }
+		else if ( i == nodeLocation ){
+		    end->next = stepPtr ->next;
+		    free(stepPtr);
+		    break;
+		}
+		end = stepPtr;
+		stepPtr = stepPtr->next;           // go to the next node
+	}
+}
+
+
+/**
+ * Deletes the node specified to the the
+ * nodeLocation: node specified
+ * head: the head node used to traverse down and update for return
+ * This calls the necessary functions needed based on the input
+ * shorthand:
+ * 		0  for nodeLocation refers to the head node or 1st position
+ * 		-1 for nodeLocation refers to the last node or last position
+ */
+linkedList* deleteNode(int nodeLocation, linkedList* head){
+	if (nodeLocation == -1 ){ deleteEndNode(head); }
+	else if ( nodeLocation == 1 | nodeLocation == 0 ){
+		head = deleteHeadNode(head);
+	}
+	else { deleteMidNode(nodeLocation, head); }
 	return head;
 }
 
@@ -332,9 +419,9 @@ int main(){
 	//first pointer to start/header of linked list,
 	//this will be used to add to the beginning of the linkedList
 	linkedList *head = createLinkedList();
-	head = insertToTop(345, head);
-	head = insertToTop(346, head);
-	head = insertToTop(347, head);
+	head = insertToHead(345, head);
+	head = insertToHead(346, head);
+	head = insertToHead(347, head);
 	insertToEnd(344, head);
 	insertToEnd(343, head);
 	insertToEnd(342, head);
@@ -342,55 +429,15 @@ int main(){
 
 	insertToMid(5000, 2, head);
 
-	head = insertNode(80085,7,head);
+	head = insertNode(80085, 7, head);
 
 	outputLinkedList(head);
 
-	head = moveNode(0,-1,head); //add -1 to choose last one
+	//head = moveNode(0,-1,head); //add -1 to choose last one
+
+	head = deleteNode(9, head);
 
 	outputLinkedList(head);
 
-//add delete node capabilities
-
-
-  //this deletes the 'head' or top most node
-temp = head;                   // transfer the address of 'head' to 'temp'
-head = temp->next;      // transfer the address of 'temp->next' to 'head'
-free(temp);
- -
- -
- -
- -
-//This deletes a node to the END of the linkedList
-end=(linkedList*)malloc(sizeof(linkedList));   // allocate space for node
-temp = head;              // transfer the address of 'head' to 'end'
-while(temp->next!=NULL){ // go to the last node
-end = temp;
-temp = temp->next;//tranfer the address of 'end1->next' to 'end'
-}
-end->next = NULL;
-free(temp);
-
-
-//inserting after 'x' number of nodes
-cout<<"ENTER THE NODE LOCATION TO DELETE:";
-cin>>node_number;                   // take the node number from user
-temp = head;
-for( int i = 1; i <= node_number ; i++ ){
-if ( i == 1 ){
-  printf("Please use head deletion\n");
-}
-else if( temp == NULL ){
-    printf("Node %i does not exist.\n", node_number);
-    break;
-  }
-  else if ( i == node_number ){
-    end->next = temp ->next;
-      free(temp);
-      break;
-  }
-  end = temp;
-temp = temp->next;           // go to the next node
-}
 return 0;
 }
